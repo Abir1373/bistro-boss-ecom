@@ -1,0 +1,11 @@
+.featured {
+    background-image: linear-gradient(0deg, rgba(21, 21, 21, 0.70) 0%, rgba(21, 21, 21, 0.70) 100%),url('../../../assets/home/featured.jpg');
+    height: 848px;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    padding-left: 40px; 
+    padding-right: 40px; 
+}
+
+/* background: linear-gradient(0deg, rgba(21, 21, 21, 0.70) 0%, rgba(21, 21, 21, 0.70) 100%), url(<path-to-image>), lightgray 50% / cover no-repeat; */
