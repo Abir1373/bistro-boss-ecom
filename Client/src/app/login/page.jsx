@@ -44,6 +44,20 @@ const Login = () => {
                     if (loading) {
                         <span className="loading loading-spinner loading-lg"></span>
                     }
+                    const loggedUser = {
+                        email: email ,
+                    }
+                    console.log(loggedUser)
+                    fetch('http://localhost:5000/jwt',{
+                        method:'POST',
+                        headers: {'content-type': 'application/json'},
+                        body: JSON.stringify(loggedUser)
+                    })
+                    .then(res=>res.json())
+                    .then(data=>{
+                        console.log('jwt response',data)
+                        localStorage.setItem('token',data.token)
+                    })
                     router.push('/')
                 })
                 .catch((error) => {

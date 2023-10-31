@@ -11,7 +11,10 @@ const Navbar = () => {
     }
 
     const handleSignOut = () => {
-        logOut()
+        logOut().
+        then(()=>{
+            localStorage.removeItem('token')
+        })
     }
 
     const navOptions = <>

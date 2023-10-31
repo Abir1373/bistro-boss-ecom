@@ -2,6 +2,7 @@ const express = require("express")
 require('dotenv').config()
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const app = express()
+const jwt = require('jsonwebtoken')
 const cors = require("cors")
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 const port = process.env.PORT || 5000
@@ -22,6 +23,29 @@ const client = new MongoClient(uri, {
     }
 });
 
+
+
+//verifyJWT
+
+const verifyJWT = (req, res, next) => {
+    console.log('hitting verify JWT');
+    // console.log(req.headers,'inside')
+    console.log(req.headers.authorization);
+    const authorization = req.headers.authorization;
+    if (!authorization) {
+        return res.status(401).send({ error: true, message: 'unauthorized message' })
+    }
+    const tokenCode = authorization.split(' ')[1];
+    console.log(tokenCode);
+    jwt.verify(tokenCode, process.env.ACCESS_TOKEN_SECRET, (error, decoded) => {
+        if (error) {
+            return res.status(403).send({ error: true, message: 'unauthorized message' })
+        }
+        req.decoded = decoded;
+        next();
+    })
+}
+
 async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
@@ -33,6 +57,21 @@ async function run() {
         const cartCollection = client.db("bistroDB").collection("carts")
         const userCollection = client.db("bistroDB").collection("users")
         const reservationCollection = client.db("bistroDB").collection("reservations")
+
+
+        //jwt 
+
+        app.post('/jwt', (req, res) => {
+            const user = req.body
+            console.log(user)
+            const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+                expiresIn: '1h'
+            })
+            res.send({ token })
+        })
+
+
+        //bistro boss app pages 
 
         app.get('/menu', async (req, res) => {
             const result = await menuCollection.find().toArray()
@@ -55,7 +94,8 @@ async function run() {
 
         //specific cart data
 
-        app.get('/carts', async (req, res) => {
+        app.get('/carts', verifyJWT, async (req, res) => {
+            
             let query = {}
             if (req.query?.email) {
                 query = { email: req.query.email }
@@ -66,7 +106,8 @@ async function run() {
         })
 
         //get whole cart data
-        app.get('/carts', async (req, res) => {
+        app.get('/carts', verifyJWT, async (req, res) => {
+            console.log(req.headers, 'inside')
             const cursor = cartCollection.find()
             const result = await cursor.toArray()
             // console.log(result)
@@ -126,7 +167,7 @@ async function run() {
             // Ensure you have the expected data structure in req.body
             const items = req.body;
             console.log(items)
-        
+
             try {
                 const line_items = items.map(item => {
                     // Use the item data from req.body to create line items
@@ -136,12 +177,12 @@ async function run() {
                             product_data: {
                                 name: item.itemName,
                             },
-                            unit_amount: parseInt(item.itemPrice)*100, // Convert price to cents
+                            unit_amount: parseInt(item.itemPrice) * 100, // Convert price to cents
                         },
                         quantity: item.quantity, // Specify the quantity for each item
                     };
                 });
-        
+
                 const session = await stripe.checkout.sessions.create({
                     line_items,
                     payment_method_types: ['card'],
@@ -149,16 +190,16 @@ async function run() {
                     success_url: 'http://localhost:3000/success',
                     cancel_url: 'http://localhost:3000/error',
                 });
-        
+
                 res.json({ url: session.url });
             } catch (e) {
                 console.error(e); // Log the error for debugging
                 res.status(500).json({ error: e.message });
             }
         });
-        
-        
-        
+
+
+
 
 
 

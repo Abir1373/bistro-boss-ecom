@@ -14,6 +14,8 @@ const CartDashboard = () => {
 
     const savedCartItems = useCart();
 
+    
+
     if (savedCartItems.length === 0) {
         return <span className="loading loading-spinner loading-lg"></span>;
     }

@@ -12,6 +12,8 @@ const useCart =  () => {
     // console.log(user.email) ; 
     const url = `http://localhost:5000/carts?email=${user.email}`;
     fetch(url,{
+        method: 'GET',
+        headers: {authorization: `Bearer ${localStorage.getItem('token')}`},
         cache:"force-cache"
     })
     .then(res=>res.json())
