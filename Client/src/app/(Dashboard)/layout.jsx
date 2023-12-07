@@ -50,17 +50,16 @@ const DashboardLayout = ({ children }) => {
                     
                     roleinfo === "user" && <ul className="menu p-4 w-80 min-h-full  text-base-content  " style={{ backgroundColor: '#D1A054' }}>
                         {/* Sidebar content here */}
-                        <li className='mt-4'><Link href="/userhome" className="text-2xl uppercase">  <FaHome></FaHome> <span> user home </span></Link></li>
-                        <li className='mt-4'><Link href="/reservation" className="text-2xl uppercase">  <FaCalendarWeek></FaCalendarWeek> <span> reservation </span> </Link></li>
-                        <li className='mt-4'><Link href="/paymenthistory" className="text-2xl uppercase">  <FaWallet></FaWallet> <span> payment history </span> </Link></li>
-                        <li className='mt-4'><Link href="/cartdashboard" className="text-2xl uppercase">  <FaCartPlus></FaCartPlus> <span> my cart </span></Link></li>
-                        <li className='mt-4'><Link href="/addreview" className="text-2xl uppercase">  <MdFeedback></MdFeedback> <span> add review </span></Link></li>
-                        <li className='mt-4'><Link href="/mybooking" className="text-2xl uppercase">  <BsBookmarksFill></BsBookmarksFill> <span> my booking </span></Link></li>
-
-                        <li className='mt-4'><Link href="/" className="text-2xl uppercase">  <FaHome></FaHome> <span> home </span></Link></li>
-                        <li className='mt-4'><Link href="/menu" className="text-2xl uppercase">  <ImMenu></ImMenu> <span> menu </span></Link></li>
-                        <li className='mt-4'><Link href="/shop" className="text-2xl uppercase">  <FaBagShopping></FaBagShopping> <span> shop </span></Link></li>
-                        <li className='mt-4'><Link href="/" className="text-2xl uppercase">  <MdMarkEmailRead></MdMarkEmailRead> <span> contact </span></Link></li>
+                        <li className='mt-4'><Link href="/userhome" className="text-2xl uppercase">  <FaHome></FaHome> <span className='text-white'> user home </span></Link></li>
+                        <li className='mt-4'><Link href="/reservation" className="text-2xl uppercase">  <FaCalendarWeek></FaCalendarWeek> <span className='text-white'> reservation </span> </Link></li>
+                        <li className='mt-4'><Link href="/paymenthistory" className="text-2xl uppercase">  <FaWallet></FaWallet> <span className='text-white'> payment history </span> </Link></li>
+                        <li className='mt-4'><Link href="/cartdashboard" className="text-2xl uppercase">  <FaCartPlus></FaCartPlus> <span className='text-white'> my cart </span></Link></li>
+                        <li className='mt-4'><Link href="/addreview" className="text-2xl uppercase">  <MdFeedback></MdFeedback> <span className='text-white'> add review </span></Link></li>
+                        <li className='mt-4'><Link href="/mybooking" className="text-2xl uppercase">  <BsBookmarksFill></BsBookmarksFill> <span className='text-white'> my booking </span></Link></li>
+                        <li className='mt-4'><Link href="/" className="text-2xl uppercase">  <FaHome></FaHome> <span className='text-white'> home </span></Link></li>
+                        <li className='mt-4'><Link href="/menu" className="text-2xl uppercase">  <ImMenu></ImMenu> <span className='text-white'> menu </span></Link></li>
+                        <li className='mt-4'><Link href="/shop" className="text-2xl uppercase">  <FaBagShopping></FaBagShopping> <span className='text-white'> shop </span></Link></li>
+                        <li className='mt-4'><Link href="/" className="text-2xl uppercase">  <MdMarkEmailRead></MdMarkEmailRead> <span className='text-white'> contact </span></Link></li>
                     </ul>
                 }
                 {

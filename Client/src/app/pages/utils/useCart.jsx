@@ -14,7 +14,7 @@ const useCart =  () => {
     fetch(url,{
         method: 'GET',
         headers: {authorization: `Bearer ${localStorage.getItem('token')}`},
-        cache:"force-cache"
+        cache:'no-cache'
     })
     .then(res=>res.json())
     .then(data=>{

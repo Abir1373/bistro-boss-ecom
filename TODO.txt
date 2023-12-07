@@ -1,0 +1,13 @@
+1. Implement Private Route 
+
+2. Google SignUp and SignIn
+
+3. Complete styling different pages according to figma of bistro-boss
+
+4. After completing the stripe payment get payment info
+
+=> Way : after going to hit 'app.checkout' from server I have to store info in local storage and then retrieve it  from success page and if fails I'm going to delete it from local storage
+
+5. Drop the whole app in vercel and publish it 
+
+*** inside the git.ignore I have to insert node-modules

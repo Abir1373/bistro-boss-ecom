@@ -28,15 +28,15 @@ const client = new MongoClient(uri, {
 //verifyJWT
 
 const verifyJWT = (req, res, next) => {
-    console.log('hitting verify JWT');
+    // console.log('hitting verify JWT');
     // console.log(req.headers,'inside')
-    console.log(req.headers.authorization);
+    // console.log(req.headers.authorization);
     const authorization = req.headers.authorization;
     if (!authorization) {
         return res.status(401).send({ error: true, message: 'unauthorized message' })
     }
     const tokenCode = authorization.split(' ')[1];
-    console.log(tokenCode);
+    // console.log(tokenCode);
     jwt.verify(tokenCode, process.env.ACCESS_TOKEN_SECRET, (error, decoded) => {
         if (error) {
             return res.status(403).send({ error: true, message: 'unauthorized message' })
@@ -57,13 +57,14 @@ async function run() {
         const cartCollection = client.db("bistroDB").collection("carts")
         const userCollection = client.db("bistroDB").collection("users")
         const reservationCollection = client.db("bistroDB").collection("reservations")
+        const orderCollection = client.db('bistroDB').collection('orders')
 
 
         //jwt 
 
         app.post('/jwt', (req, res) => {
             const user = req.body
-            console.log(user)
+            // console.log(user)
             const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
                 expiresIn: '1h'
             })
@@ -94,8 +95,8 @@ async function run() {
 
         //specific cart data
 
-        app.get('/carts', verifyJWT, async (req, res) => {
-            
+        app.get('/carts', async (req, res) => {
+
             let query = {}
             if (req.query?.email) {
                 query = { email: req.query.email }
@@ -107,7 +108,7 @@ async function run() {
 
         //get whole cart data
         app.get('/carts', verifyJWT, async (req, res) => {
-            console.log(req.headers, 'inside')
+            // console.log(req.headers, 'inside')
             const cursor = cartCollection.find()
             const result = await cursor.toArray()
             // console.log(result)
@@ -150,7 +151,7 @@ async function run() {
 
         app.post('/reservations', async (req, res) => {
             const reservation = req.body
-            console.log(reservation)
+            // console.log(reservation)
             const result = await reservationCollection.insertOne(reservation)
             res.send(result)
         })
@@ -166,7 +167,7 @@ async function run() {
         app.post('/create-checkout-session', async (req, res) => {
             // Ensure you have the expected data structure in req.body
             const items = req.body;
-            console.log(items)
+            // console.log(items)
 
             try {
                 const line_items = items.map(item => {
@@ -197,6 +198,34 @@ async function run() {
                 res.status(500).json({ error: e.message });
             }
         });
+
+
+
+
+
+        //orders
+
+        app.post('/orders', async (req, res) => {
+            const itemArray = req.body
+            const result = await orderCollection.insertMany(itemArray)
+            res.send(result)
+        })
+
+        app.delete('/carts',async (req,res)=> {
+            let query = {}
+            if (req.query?.email) {
+                query = { email: req.query.email }
+            }
+            let result = await cartCollection.deleteMany(query);
+            res.send(result)
+        })
+
+
+
+
+
+
+
 
 
 

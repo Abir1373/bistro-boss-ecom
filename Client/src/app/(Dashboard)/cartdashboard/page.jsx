@@ -32,6 +32,8 @@ const CartDashboard = () => {
             itemImage: savedCartItems[i].image,
             itemPrice: savedCartItems[i].price,
             itemId: savedCartItems[i]._id,
+            email: savedCartItems[i].email,
+            category: savedCartItems[i].category,
             quantity: 1
         }
 
@@ -50,6 +52,7 @@ const CartDashboard = () => {
     // console.log(totalPrice)
 
     const handlePay = () => {
+        localStorage.setItem('pay',JSON.stringify(SingleCartItem))
         fetch('http://localhost:5000/create-checkout-session', {
             method: 'POST',
             headers: {
@@ -111,25 +114,3 @@ const CartDashboard = () => {
 };
 
 export default CartDashboard;
-
-
-
-
-
-
-
-
-
-
-
-// import React from 'react';
-
-// const Cartdashboard = () => {
-//     return (
-//         <div>
-//             CartDashBoard
-//         </div>
-//     );
-// };
-
-// export default Cartdashboard;
